@@ -1,0 +1,736 @@
+/* ============================================================
+   WIN95 BASE + IBFR HOT DOG BUILDER
+   ============================================================ */
+
+:root {
+  --win-bg:        #c0c0c0;
+  --win-dark:      #808080;
+  --win-darker:    #404040;
+  --win-white:     #ffffff;
+  --win-black:     #000000;
+  --win-title:     linear-gradient(to right, #000080, #1084d0);
+  --win-title-inactive: linear-gradient(to right, #808080, #b0b0b0);
+  --win-title-danger: linear-gradient(to right, #800000, #c04040);
+  --desktop-bg:    #008080;
+  --taskbar-h:     28px;
+
+  /* Cubs theme vars */
+  --cubs-bg:   #0E3386;
+  --cubs-red:  #CC3433;
+  --cubs-alt:  linear-gradient(to right, #0E3386, #1a50b0);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+/* ---- Scrollbar Win95 style ---- */
+::-webkit-scrollbar { width: 16px; height: 16px; background: var(--win-bg); }
+::-webkit-scrollbar-thumb { background: var(--win-bg); border: 2px solid; border-color: var(--win-white) var(--win-dark) var(--win-dark) var(--win-white); }
+::-webkit-scrollbar-button { background: var(--win-bg); border: 2px solid; border-color: var(--win-white) var(--win-dark) var(--win-dark) var(--win-white); height: 16px; width: 16px; }
+::-webkit-scrollbar-corner { background: var(--win-bg); }
+
+body {
+  margin: 0;
+  font-family: 'MS Sans Serif', Tahoma, 'Microsoft Sans Serif', sans-serif;
+  font-size: 11px;
+  background: var(--desktop-bg);
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+  user-select: none;
+  cursor: default;
+}
+
+/* ============================================================
+   DESKTOP
+   ============================================================ */
+.desktop {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background: var(--desktop-bg);
+  transition: background 0.6s ease;
+}
+
+body.chicago-mode .desktop { background: var(--cubs-bg); }
+
+/* ============================================================
+   WIN95 BORDERS
+   ============================================================ */
+.raised, .btn-95 {
+  border: 2px solid;
+  border-color: var(--win-white) var(--win-dark) var(--win-dark) var(--win-white);
+}
+.sunken, .sunken-box, .win-select, .build-list {
+  border: 2px solid;
+  border-color: var(--win-dark) var(--win-white) var(--win-white) var(--win-dark);
+}
+.win-inset {
+  border: 1px solid var(--win-dark);
+  box-shadow: inset 1px 1px 0 var(--win-white);
+}
+
+/* ============================================================
+   MAIN WINDOW
+   ============================================================ */
+.win-window {
+  position: absolute;
+  top: 6px;
+  left: 8px;
+  right: 8px;
+  bottom: calc(var(--taskbar-h) + 6px);
+  background: var(--win-bg);
+  border: 2px solid;
+  border-color: var(--win-white) var(--win-darker) var(--win-darker) var(--win-white);
+  box-shadow: 2px 2px 0 var(--win-black);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ============================================================
+   TITLEBAR
+   ============================================================ */
+.titlebar {
+  background: var(--win-title);
+  color: var(--win-white);
+  padding: 3px 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  flex-shrink: 0;
+  font-weight: bold;
+  font-size: 11px;
+}
+.titlebar-danger { background: var(--win-title-danger) !important; }
+.titlebar-inactive { background: var(--win-title-inactive) !important; }
+
+.titlebar-text { display: flex; align-items: center; gap: 5px; overflow: hidden; white-space: nowrap; }
+.title-icon { font-size: 13px; }
+
+.win-controls { display: flex; gap: 2px; flex-shrink: 0; }
+.win-btn {
+  width: 16px; height: 14px;
+  background: var(--win-bg);
+  color: var(--win-black);
+  border: 2px solid;
+  border-color: var(--win-white) var(--win-dark) var(--win-dark) var(--win-white);
+  font-size: 8px;
+  font-family: inherit;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  padding: 0;
+  line-height: 1;
+}
+.win-btn:active { border-color: var(--win-dark) var(--win-white) var(--win-white) var(--win-dark); }
+.win-close:hover { background: #c00; color: white; }
+
+body.chicago-mode .titlebar { background: var(--cubs-alt); }
+
+/* ============================================================
+   MENUBAR
+   ============================================================ */
+.menubar {
+  background: var(--win-bg);
+  padding: 2px 4px;
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid var(--win-dark);
+  flex-shrink: 0;
+}
+.menu-item {
+  padding: 2px 8px;
+  cursor: pointer;
+  font-size: 11px;
+}
+.menu-item:hover { background: #000080; color: white; }
+
+/* ============================================================
+   APP BODY / PANELS
+   ============================================================ */
+.app-body {
+  display: grid;
+  grid-template-columns: 230px 1fr 230px;
+  flex: 1;
+  overflow: hidden;
+  gap: 0;
+}
+
+.win-panel {
+  background: var(--win-bg);
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.left-panel { border-right: 2px solid var(--win-dark); border-right-color: var(--win-dark); }
+.right-panel { border-left: 1px solid var(--win-dark); }
+
+/* ============================================================
+   SECTION HEADERS
+   ============================================================ */
+.section-header {
+  background: #000080;
+  color: white;
+  padding: 2px 6px;
+  font-weight: bold;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  flex-shrink: 0;
+}
+body.chicago-mode .section-header { background: var(--cubs-bg); }
+
+/* ============================================================
+   FORM ELEMENTS
+   ============================================================ */
+.form-row {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 4px;
+}
+.form-label {
+  font-size: 10px;
+  font-weight: bold;
+}
+.forbidden-label { color: #800000; }
+
+.win-select {
+  background: white;
+  color: black;
+  font-family: inherit;
+  font-size: 11px;
+  padding: 2px 4px;
+  width: 100%;
+  cursor: pointer;
+  outline: none;
+}
+.forbidden-select { color: #800000; }
+
+/* ============================================================
+   TOPPING BUTTONS
+   ============================================================ */
+.toppings-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3px;
+}
+
+.topping-btn {
+  background: var(--win-bg);
+  color: var(--win-black);
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: bold;
+  padding: 4px 6px;
+  text-align: left;
+  cursor: pointer;
+  border: 2px solid;
+  border-color: var(--win-white) var(--win-dark) var(--win-dark) var(--win-white);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: none;
+}
+.topping-btn:active {
+  border-color: var(--win-dark) var(--win-white) var(--win-white) var(--win-dark);
+  padding: 5px 5px 3px 7px;
+}
+.topping-btn.active {
+  background: #000080;
+  color: white;
+  border-color: var(--win-dark) var(--win-white) var(--win-white) var(--win-dark);
+}
+.topping-btn.cursed { color: #800000; font-style: italic; }
+.topping-btn.cursed.active { background: #800000; color: white; }
+.topping-btn.crimes { color: #600060; font-style: italic; }
+.topping-btn.crimes.active { background: #600060; color: white; animation: pulseCurse 1.2s ease infinite; }
+
+@keyframes pulseCurse {
+  0%, 100% { background: #600060; }
+  50% { background: #900090; }
+}
+
+/* ============================================================
+   PRESET BUTTONS
+   ============================================================ */
+.presets-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.preset-btn {
+  background: var(--win-bg);
+  color: var(--win-black);
+  font-family: inherit;
+  font-size: 10px;
+  padding: 4px 6px;
+  text-align: left;
+  cursor: pointer;
+  border: 2px solid;
+  border-color: var(--win-white) var(--win-dark) var(--win-dark) var(--win-white);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.preset-btn:hover { background: #000080; color: white; }
+.preset-btn:active {
+  border-color: var(--win-dark) var(--win-white) var(--win-white) var(--win-dark);
+}
+.preset-btn.baba-yaga { color: #400; font-weight: bold; }
+.preset-btn.baba-yaga:hover { background: #400; }
+
+/* ============================================================
+   ACTION BUTTONS
+   ============================================================ */
+.action-row {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.btn-95 {
+  background: var(--win-bg);
+  color: var(--win-black);
+  font-family: inherit;
+  font-size: 11px;
+  padding: 4px 12px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.btn-95:active {
+  border-color: var(--win-dark) var(--win-white) var(--win-white) var(--win-dark);
+  padding: 5px 11px 3px 13px;
+}
+.btn-95:disabled, .btn-disabled {
+  color: var(--win-dark);
+  cursor: not-allowed;
+}
+.btn-wide { width: 100%; text-align: center; }
+.btn-small { font-size: 10px; padding: 2px 6px; }
+.btn-danger { color: #800000; }
+.btn-danger:active { color: #800000; }
+
+/* ============================================================
+   BUILD LIST
+   ============================================================ */
+.build-list {
+  background: white;
+  padding: 4px;
+  font-size: 11px;
+  min-height: 60px;
+  overflow-y: auto;
+}
+.build-empty { color: var(--win-dark); font-style: italic; }
+.build-item {
+  padding: 1px 2px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.build-item.cursed { color: #800000; }
+
+/* ============================================================
+   CENTER PANEL: DOG STAGE
+   ============================================================ */
+.center-panel {
+  display: flex;
+  flex-direction: column;
+  padding: 6px;
+  overflow: hidden;
+}
+
+.stage-header-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+  font-weight: bold;
+  font-size: 11px;
+}
+.stage-controls { display: flex; align-items: center; gap: 6px; }
+.hint-text { font-size: 10px; color: var(--win-dark); font-style: italic; }
+
+.dog-3d-wrapper {
+  flex: 1;
+  border: 2px solid;
+  border-color: var(--win-dark) var(--win-white) var(--win-white) var(--win-dark);
+  background: #f5f0e8;
+  overflow: hidden;
+  cursor: grab;
+  perspective: 700px;
+  perspective-origin: center center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  position: relative;
+}
+.dog-3d-wrapper:active { cursor: grabbing; }
+
+.dog-svg-container {
+  width: 100%;
+  height: 100%;
+  transform: rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+  transform-style: preserve-3d;
+  transition: transform 0.06s ease-out;
+}
+
+/* CHICAGO MODE: stage background */
+body.chicago-mode .dog-3d-wrapper {
+  background: linear-gradient(135deg, #0E3386, #1a50b0);
+}
+
+.stage-footer {
+  margin-top: 4px;
+  padding: 3px 6px;
+  background: white;
+  font-size: 11px;
+  min-height: 22px;
+  flex-shrink: 0;
+}
+.stage-footer.bad { background: #ffe0e0; color: #800000; }
+.stage-footer.good { background: #e0ffe0; color: #006400; }
+.stage-footer.chicago { background: #0E3386; color: white; font-weight: bold; }
+
+/* CONFETTI (cubs mode) */
+.confetti-piece {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  top: -10px;
+  animation: confettiFall linear forwards;
+  pointer-events: none;
+  z-index: 99;
+  font-size: 14px;
+}
+@keyframes confettiFall {
+  0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+
+/* ============================================================
+   IBFR PANEL
+   ============================================================ */
+.ibfr-seal {
+  display: flex;
+  justify-content: center;
+  padding: 8px 0 4px;
+}
+.seal-outer {
+  width: 90px; height: 90px;
+  border-radius: 50%;
+  background: #000080;
+  border: 3px solid;
+  border-color: var(--win-dark) var(--win-white) var(--win-white) var(--win-dark);
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.4s;
+}
+body.chicago-mode .seal-outer { background: var(--cubs-bg); border-color: gold; }
+
+.seal-inner {
+  width: 76px; height: 76px;
+  border-radius: 50%;
+  background: #000060;
+  border: 2px dashed rgba(255,255,255,0.4);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 0;
+  text-align: center;
+}
+body.chicago-mode .seal-inner { background: var(--cubs-red); }
+
+.seal-acronym { color: white; font-size: 16px; font-weight: bold; letter-spacing: 2px; }
+.seal-stars { color: gold; font-size: 8px; }
+.seal-sub { color: rgba(255,255,255,0.75); font-size: 8px; }
+
+.ibfr-status-box {
+  padding: 6px;
+  background: white;
+  min-height: 60px;
+}
+.ibfr-tier-badge {
+  font-weight: bold;
+  font-size: 11px;
+  padding: 2px 0 4px;
+  border-bottom: 1px solid var(--win-dark);
+  margin-bottom: 4px;
+}
+.ibfr-message { font-size: 10px; color: #222; line-height: 1.4; }
+
+.ibfr-tier-AWAITING .ibfr-tier-badge { color: #404040; }
+.ibfr-tier-CERTIFIED .ibfr-tier-badge { color: #006400; }
+.ibfr-tier-PROVISIONAL .ibfr-tier-badge { color: #804000; }
+.ibfr-tier-VIOLATION .ibfr-tier-badge { color: #900000; }
+.ibfr-tier-FEDERAL .ibfr-tier-badge { color: #600000; }
+.ibfr-tier-CRIMES .ibfr-tier-badge { color: #000; background: #ffcccc; padding: 2px 4px; animation: crimesPulse 1s ease infinite; }
+.ibfr-tier-CHICAGO_CERTIFIED .ibfr-tier-badge { color: var(--cubs-bg); font-size: 12px; }
+
+@keyframes crimesPulse {
+  0%, 100% { background: #ffcccc; }
+  50% { background: #ff8888; }
+}
+
+.case-file {
+  background: white;
+  padding: 5px;
+  font-size: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.case-row { display: flex; gap: 4px; }
+.case-label { color: var(--win-dark); font-weight: bold; min-width: 72px; flex-shrink: 0; }
+.case-val { color: #000; overflow: hidden; text-overflow: ellipsis; }
+
+.ibfr-lore {
+  background: #fffff0;
+  padding: 6px;
+  font-size: 10px;
+  line-height: 1.5;
+  color: #333;
+}
+.lore-source { margin-top: 4px; color: var(--win-dark); font-size: 9px; text-align: right; }
+
+.ibfr-tiers-legend {
+  font-size: 10px;
+  padding: 2px 0;
+}
+.legend-title { font-weight: bold; font-size: 10px; color: var(--win-dark); margin-bottom: 3px; }
+.tier-item { padding: 1px 0; font-weight: bold; }
+
+/* ============================================================
+   STATUSBAR
+   ============================================================ */
+.statusbar {
+  display: flex;
+  border-top: 2px solid var(--win-dark);
+  background: var(--win-bg);
+  flex-shrink: 0;
+}
+.status-seg {
+  border: 2px solid;
+  border-color: var(--win-dark) var(--win-white) var(--win-white) var(--win-dark);
+  padding: 1px 8px;
+  font-size: 11px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.status-seg:first-child { flex: 1; }
+
+/* ============================================================
+   TASKBAR
+   ============================================================ */
+.taskbar {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  height: var(--taskbar-h);
+  background: var(--win-bg);
+  border-top: 2px solid var(--win-white);
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px;
+  z-index: 1000;
+}
+
+.start-btn {
+  height: 22px;
+  padding: 0 8px;
+  background: var(--win-bg);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  border: 2px solid;
+  border-color: var(--win-white) var(--win-dark) var(--win-dark) var(--win-white);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.start-btn:active {
+  border-color: var(--win-dark) var(--win-white) var(--win-white) var(--win-dark);
+}
+
+.taskbar-divider {
+  width: 2px; height: 20px;
+  border-left: 1px solid var(--win-dark);
+  border-right: 1px solid var(--win-white);
+  margin: 0 2px;
+}
+
+.taskbar-app {
+  height: 22px;
+  padding: 0 8px;
+  font-family: inherit;
+  font-size: 11px;
+  cursor: pointer;
+  border: 2px solid;
+  border-color: var(--win-white) var(--win-dark) var(--win-dark) var(--win-white);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+.active-app {
+  border-color: var(--win-dark) var(--win-white) var(--win-white) var(--win-dark);
+  background: var(--win-bg);
+}
+
+.taskbar-tray {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 8px;
+  height: 22px;
+  border: 2px solid;
+  border-color: var(--win-dark) var(--win-white) var(--win-white) var(--win-dark);
+  font-size: 12px;
+}
+.tray-clock { font-size: 11px; font-weight: bold; }
+
+/* ============================================================
+   WIN DIALOG (IBFR VIOLATION POPUP)
+   ============================================================ */
+.win-dialog {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 360px;
+  background: var(--win-bg);
+  border: 2px solid;
+  border-color: var(--win-white) var(--win-dark) var(--win-dark) var(--win-white);
+  box-shadow: 4px 4px 0 var(--win-black);
+  z-index: 900;
+}
+.dialog-body {
+  padding: 16px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+.dialog-icon { font-size: 36px; flex-shrink: 0; }
+.dialog-content { flex: 1; }
+.dialog-headline { font-weight: bold; font-size: 12px; margin-bottom: 6px; }
+.dialog-message { font-size: 11px; line-height: 1.5; }
+.dialog-footer {
+  padding: 6px 16px 12px;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* ============================================================
+   OH OVERLAY (BABA YAGA MODE)
+   ============================================================ */
+.oh-overlay {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  z-index: 9999;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  cursor: pointer;
+}
+.oh-overlay.active { display: flex; }
+
+.oh-gif {
+  max-width: 420px;
+  max-height: 50vh;
+  object-fit: contain;
+  display: block;
+}
+
+/* Placeholder box when gif isn't found */
+.oh-gif-placeholder {
+  width: 320px;
+  height: 240px;
+  border: 3px solid #444;
+  background: #111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  font-size: 12px;
+  font-style: italic;
+}
+
+.oh-text {
+  color: white;
+  font-size: 80px;
+  font-family: 'MS Sans Serif', Tahoma, sans-serif;
+  font-weight: bold;
+  letter-spacing: -2px;
+  text-shadow: 0 0 40px rgba(255,255,255,0.15);
+}
+.oh-exit {
+  color: #555;
+  background: transparent;
+  border: 1px solid #333;
+  font-family: inherit;
+  font-size: 11px;
+  padding: 4px 12px;
+  cursor: pointer;
+}
+.oh-exit:hover { color: #888; }
+
+/* ============================================================
+   SVG TOPPING HELPERS
+   ============================================================ */
+#hotDogSVG { display: block; }
+
+/* ============================================================
+   CUBS / CHICAGO MODE OVERRIDES
+   ============================================================ */
+body.chicago-mode .win-window {
+  border-color: gold var(--cubs-bg) var(--cubs-bg) gold;
+}
+body.chicago-mode .menubar {
+  background: var(--cubs-bg);
+  border-bottom-color: var(--cubs-red);
+}
+body.chicago-mode .menubar .menu-item { color: white; }
+body.chicago-mode .menubar .menu-item:hover { background: var(--cubs-red); }
+body.chicago-mode .statusbar { background: var(--cubs-bg); }
+body.chicago-mode .status-seg { color: white; border-color: rgba(255,255,255,0.3) transparent transparent rgba(255,255,255,0.3); }
+body.chicago-mode .taskbar { background: var(--cubs-bg); border-top-color: gold; }
+body.chicago-mode .start-btn { background: var(--cubs-red); color: white; border-color: rgba(255,255,255,0.5) rgba(0,0,0,0.3) rgba(0,0,0,0.3) rgba(255,255,255,0.5); }
+body.chicago-mode .active-app { background: var(--cubs-red); color: white; }
+body.chicago-mode .taskbar-tray { background: var(--cubs-blue); color: white; }
+
+/* ============================================================
+   VIOLATION DIALOG SHAKE
+   ============================================================ */
+@keyframes dialogShake {
+  0%, 100% { transform: translate(-50%, -50%); }
+  15% { transform: translate(calc(-50% - 6px), -50%); }
+  30% { transform: translate(calc(-50% + 6px), -50%); }
+  45% { transform: translate(calc(-50% - 4px), -50%); }
+  60% { transform: translate(calc(-50% + 4px), -50%); }
+  75% { transform: translate(calc(-50% - 2px), -50%); }
+  90% { transform: translate(calc(-50% + 2px), -50%); }
+}
+.win-dialog.shaking { animation: dialogShake 0.45s ease; }
+
+/* ============================================================
+   RESPONSIVE MINIMUM
+   ============================================================ */
+@media (max-width: 900px) {
+  .app-body {
+    grid-template-columns: 200px 1fr 200px;
+  }
+}
+@media (max-width: 700px) {
+  .app-body {
+    grid-template-columns: 1fr;
+    overflow-y: auto;
+  }
+  .left-panel, .right-panel { border: none; max-height: none; overflow-y: visible; }
+  .center-panel { min-height: 300px; }
+}
